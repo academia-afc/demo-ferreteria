@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Urbano Store - Forwarder Venture</title>
+    <title>Ferretería - Catálogo Digital</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -13,7 +13,6 @@
             font-family: 'Inter', sans-serif; 
             -webkit-tap-highlight-color: transparent;
         }
-        /* Ocultar scrollbar en el menú de categorías para un look más limpio */
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
@@ -21,26 +20,27 @@
 <body class="max-w-md mx-auto bg-white min-h-screen relative shadow-2xl">
 
     <header class="bg-white/95 backdrop-blur-md px-5 py-4 sticky top-0 z-50 flex justify-between items-center border-b border-gray-100">
-        <h1 id="store-name" class="font-black text-2xl tracking-tighter text-black uppercase">URBANO.</h1>
+        <h1 id="store-name" class="font-black text-2xl tracking-tighter text-black uppercase">FERRETERÍA</h1>
         <button onclick="toggleCart()" class="relative p-1">
-            <i class="fa-solid fa-bag-shopping text-2xl text-black"></i>
+            <i class="fa-solid fa-cart-shopping text-2xl text-black"></i>
             <span id="cart-count" class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold h-5 w-5 flex items-center justify-center rounded-full border-2 border-white transition-transform duration-200">0</span>
         </button>
     </header>
 
     <section class="relative w-full aspect-[9/16] bg-black overflow-hidden flex items-end p-6">
-        <img src="https://placehold.co/720x1280/111827/ffffff?text=Banner+Principal" class="absolute inset-0 w-full h-full object-cover opacity-60" alt="Banner">
+        <img src="https://placehold.co/720x1280/1f2937/ffffff?text=Banner+Ferreteria" class="absolute inset-0 w-full h-full object-cover opacity-60" alt="Banner Ferretería">
         <div class="relative z-10 w-full">
-            <span class="bg-white text-black px-3 py-1 font-black text-xs uppercase tracking-widest mb-3 inline-block">New Drop</span>
-            <h2 class="text-white font-black text-5xl leading-none mb-2">NUEVA<br>COLECCIÓN</h2>
-            <p class="text-gray-300 text-sm font-medium">Descubre las últimas tendencias.</p>
+            <span class="bg-white text-black px-3 py-1 font-black text-xs uppercase tracking-widest mb-3 inline-block">Catálogo</span>
+            <h2 class="text-white font-black text-5xl leading-none mb-2">EQUIPA TU<br>PROYECTO</h2>
+            <p class="text-gray-300 text-sm font-medium">Las mejores herramientas y materiales.</p>
         </div>
     </section>
 
     <nav class="flex overflow-x-auto gap-3 px-5 py-5 hide-scrollbar border-b border-gray-100 bg-white">
         <button class="px-6 py-2 bg-black text-white rounded-full text-sm font-bold whitespace-nowrap">Ver Todo</button>
-        <button class="px-6 py-2 bg-gray-100 text-gray-600 rounded-full text-sm font-bold whitespace-nowrap">Nuevos</button>
-        <button class="px-6 py-2 bg-gray-100 text-gray-600 rounded-full text-sm font-bold whitespace-nowrap">Promociones</button>
+        <button class="px-6 py-2 bg-gray-100 text-gray-600 rounded-full text-sm font-bold whitespace-nowrap">Eléctricas</button>
+        <button class="px-6 py-2 bg-gray-100 text-gray-600 rounded-full text-sm font-bold whitespace-nowrap">Manuales</button>
+        <button class="px-6 py-2 bg-gray-100 text-gray-600 rounded-full text-sm font-bold whitespace-nowrap">Pinturas</button>
     </nav>
 
     <main class="p-4 bg-gray-50 pb-28 min-h-screen">
@@ -54,14 +54,14 @@
     <div id="cart-modal" class="hidden fixed inset-0 bg-black/60 z-[1001] flex items-end transition-opacity">
         <div class="bg-white w-full max-w-md mx-auto h-[85vh] rounded-t-3xl flex flex-col overflow-hidden shadow-2xl relative animate-slide-up">
             <div class="px-6 py-5 flex justify-between items-center border-b border-gray-100">
-                <h2 class="text-xl font-black">Tu Bolsa</h2>
+                <h2 class="text-xl font-black">Tu Pedido</h2>
                 <button onclick="toggleCart()" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 active:scale-95">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
             
             <div id="cart-items" class="flex-grow p-5 overflow-y-auto space-y-4 bg-gray-50">
-                </div>
+            </div>
             
             <div class="p-6 bg-white border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
                 <div class="flex justify-between items-center mb-5">
@@ -69,24 +69,25 @@
                     <span id="cart-total" class="text-2xl font-black">$0</span>
                 </div>
                 <button onclick="sendToWhatsApp()" class="w-full bg-[#25D366] text-white py-4 rounded-2xl font-black text-lg flex justify-center items-center gap-3 shadow-lg shadow-green-500/20 active:scale-95 transition-all">
-                    <i class="fa-brands fa-whatsapp text-2xl"></i> Enviar Pedido
+                    <i class="fa-brands fa-whatsapp text-2xl"></i> Enviar por WhatsApp
                 </button>
             </div>
         </div>
     </div>
 
     <script>
-        // --- CONFIGURACIÓN ---
+        // --- CONFIGURACIÓN ESTRICTA ---
         const SHEET_ID = '1MfRUT_lXBGfhBCQAXMG4CGC4ZPJatpsrm7GyIUdZqT0';
         const SHEET_NAME = 'Ferretería'; 
         const WHATSAPP_NUMBER = '573114957971';
-        // ---------------------
+        // ------------------------------
 
         let products = [];
         let cart = [];
 
         async function loadProducts() {
-            const url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vTKubbkA5X4nCf12-gMrjRmlTagA9m11VdXuLO_DYB958eGMdGIQT2NWVOuLSUVa_gxtvLqyPdO76BU/pubhtml`;
+            // El encodeURIComponent asegura que la tilde en "Ferretería" no rompa la URL
+            const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
             
             try {
                 const response = await fetch(url);
@@ -95,7 +96,7 @@
                 const rows = json.table.rows;
                 
                 products = rows.map(row => ({
-                    nombre: row.c[0] ? row.c[0].v : 'Sin nombre',
+                    nombre: row.c[0] ? row.c[0].v : 'Producto sin nombre',
                     descripcion: row.c[1] ? row.c[1].v : '',
                     precio: row.c[2] ? row.c[2].v : 0,
                     imagen: row.c[3] ? row.c[3].v : 'https://placehold.co/720x1280/EEEEEE/999999?text=Sin+Imagen',
@@ -107,7 +108,7 @@
             } catch (e) {
                 console.error("Error cargando Sheets:", e);
                 document.getElementById('store-name').innerText = "ERROR";
-                document.getElementById('product-grid').innerHTML = `<p class="col-span-2 text-center text-red-500 mt-10">Error de conexión. Verifica que el Sheets esté Público en la Web.</p>`;
+                document.getElementById('product-grid').innerHTML = `<p class="col-span-2 text-center text-red-500 mt-10">Error al cargar. Asegúrate de que el documento esté publicado en la web.</p>`;
             }
         }
 
@@ -145,7 +146,6 @@
             }
             updateCartUI();
             
-            // Animación visual del ícono de la bolsa
             const cartIcon = document.getElementById('cart-count');
             cartIcon.classList.add('scale-150', 'bg-green-500');
             setTimeout(() => cartIcon.classList.remove('scale-150', 'bg-green-500'), 200);
@@ -157,7 +157,7 @@
             let total = 0;
 
             if(cart.length === 0) {
-                itemsContainer.innerHTML = `<div class="h-full flex flex-col items-center justify-center text-gray-400 py-10"><i class="fa-solid fa-bag-shopping text-5xl mb-4 opacity-50"></i><p class="font-bold">Tu bolsa está vacía</p></div>`;
+                itemsContainer.innerHTML = `<div class="h-full flex flex-col items-center justify-center text-gray-400 py-10"><i class="fa-solid fa-cart-shopping text-5xl mb-4 opacity-50"></i><p class="font-bold">Tu carrito está vacío</p></div>`;
             } else {
                 itemsContainer.innerHTML = cart.map((item, i) => {
                     total += item.precio * item.qty;
@@ -198,11 +198,11 @@
         }
 
         function sendToWhatsApp() {
-            if (cart.length === 0) return alert("Tu bolsa está vacía");
+            if (cart.length === 0) return alert("Tu carrito está vacío");
 
-            const storeName = document.getElementById('store-name')?.innerText || "URBANO";
+            const storeName = document.getElementById('store-name')?.innerText || "Ferretería";
             
-            let message = `🛍️ *NUEVO PEDIDO - ${storeName}*%0A`;
+            let message = `🛠️ *NUEVO PEDIDO - ${storeName}*%0A`;
             message += `-----------------------------------%0A`;
             
             let total = 0;
