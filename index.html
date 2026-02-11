@@ -143,19 +143,27 @@
 
         // 3. Envío a WhatsApp
         function sendToWhatsApp() {
-            if (cart.length === 0) return alert("El carrito está vacío");
+    if (cart.length === 0) return alert("El carrito está vacío");
 
-            let message = `*Nuevo Pedido - Forwarder Venture*%0A--------------------------%0A`;
-            let total = 0;
+    // Captura el nombre de la tienda para personalizar el mensaje
+    const storeName = document.getElementById('store-name')?.innerText || "Forwarder Venture";
+    
+    let message = `🛍️ *NUEVO PEDIDO - ${storeName}*%0A`;
+    message += `-----------------------------------%0A`;
+    
+    let total = 0;
+    cart.forEach(item => {
+        message += `• ${item.qty}x ${item.nombre} - $${(item.precio * item.qty).toLocaleString()}%0A`;
+        total += item.precio * item.qty;
+    });
 
-            cart.forEach(item => {
-                message += `• ${item.qty}x ${item.nombre} - $${(item.precio * item.qty).toLocaleString()}%0A`;
-                total += item.precio * item.qty;
-            });
+    message += `-----------------------------------%0A`;
+    message += `💰 *TOTAL A PAGAR: $${total.toLocaleString()}*%0A`;
+    message += `-----------------------------------%0A`;
+    message += `_Enviado desde el catálogo web_`;
 
-            message += `--------------------------%0A*Total: $${total.toLocaleString()}*`;
-            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
-        }
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
+}
 
         function removeFromCart(i) {
             cart.splice(i, 1);
