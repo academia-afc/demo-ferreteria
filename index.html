@@ -78,14 +78,16 @@
         </div>
     </div>
 
-    <script>
-        // --- CONFIGURACIÓN DE PRODUCCIÓN ---
-        const SHEET_ID = '1MfRUT_lXBGfhBCQAXMG4CGC4ZPJatpsrm7GyIUdZqT0';
-        const SHEET_NAME = 'Ferretería';
+    <script>   
+       // URL forzada a extraer CSV exactamente de la pestaña "Ferretería" (evita el error de traer la pestaña "Ropa")
+       // --- CONFIGURACIÓN DE PRODUCCIÓN ---
+        const SHEET_ID = '1MfRUT_lXBGfhBCQAXMG4CGC4ZPJatpsrm7GyIUdZqT0'; // Este es el ID de tu documento
+        const GID = 'gid=2126619530'; // Reemplaza esto con el número que copiaste de la URL
         const WHATSAPP_NUMBER = '573114957971';
-        
-        // URL forzada a extraer CSV exactamente de la pestaña "Ferretería" (evita el error de traer la pestaña "Ropa")
-        const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SHEET_NAME)}`;
+
+        // ¡Esta es la URL mágica que fuerza la descarga de la pestaña correcta!
+        const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${GID}`;
+// -----------------------------------
         // -----------------------------------
 
         let allProducts = [];
