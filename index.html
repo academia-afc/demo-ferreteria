@@ -11,65 +11,68 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
         body { 
-            background-color: #FAFAFA; 
+            background-color: #E5E7EB; /* Fondo gris oscuro para que resalte la hoja blanca en PC */
             font-family: 'Inter', sans-serif; 
             -webkit-tap-highlight-color: transparent;
         }
-        /* Ocultar scrollbar nativo manteniendo funcionalidad */
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="max-w-md mx-auto bg-white min-h-screen relative shadow-2xl">
+<body class="min-h-screen relative text-gray-900">
 
-    <header class="bg-white/95 backdrop-blur-md px-5 py-4 sticky top-0 z-50 flex justify-between items-center border-b border-gray-100">
-        <h1 id="store-name" class="font-black text-2xl tracking-tighter text-black uppercase">FERRETERÍA.</h1>
-        <button onclick="toggleCart()" class="relative p-1 active:scale-95 transition-transform">
-            <i class="fa-solid fa-cart-shopping text-2xl text-black"></i>
-            <span id="cart-count" class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold h-5 w-5 flex items-center justify-center rounded-full border-2 border-white transition-all duration-300">0</span>
-        </button>
-    </header>
+    <div class="max-w-[1400px] mx-auto bg-white min-h-screen shadow-2xl relative">
 
-    <section class="relative w-full aspect-[9/16] bg-black overflow-hidden flex items-end p-6">
-        <img src="https://images.unsplash.com/photo-1530124566582-a618bc2615dc?q=80&w=720&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-50" alt="Herramientas y Construcción">
-        <div class="relative z-10 w-full">
-            <span class="bg-[#F5A623] text-black px-3 py-1 font-black text-xs uppercase tracking-widest mb-3 inline-block rounded-sm">Equipamiento Pro</span>
-            <h2 class="text-white font-black text-5xl leading-none mb-2 shadow-sm">TODO PARA<br>TU OBRA</h2>
-            <p class="text-gray-200 text-sm font-medium">Calidad industrial al alcance de tu mano.</p>
-        </div>
-    </section>
+        <header class="bg-white/95 backdrop-blur-md px-5 py-4 sticky top-0 z-50 flex justify-between items-center border-b border-gray-100 shadow-sm">
+            <h1 id="store-name" class="font-black text-2xl md:text-3xl tracking-tighter uppercase">FERRETERÍA.</h1>
+            <button onclick="toggleCart()" class="relative p-1 active:scale-95 transition-transform hover:opacity-70">
+                <i class="fa-solid fa-cart-shopping text-2xl md:text-3xl"></i>
+                <span id="cart-count" class="absolute -top-2 -right-2 bg-red-600 text-white text-[11px] md:text-xs font-bold h-5 w-5 md:h-6 md:w-6 flex items-center justify-center rounded-full border-2 border-white transition-all duration-300 shadow-sm">0</span>
+            </button>
+        </header>
 
-    <nav id="category-nav" class="flex overflow-x-auto gap-3 px-5 py-5 hide-scrollbar border-b border-gray-100 bg-white sticky top-[68px] z-40">
-        </nav>
-
-    <main class="p-4 bg-gray-50 pb-28 min-h-screen">
-        <div id="product-grid" class="grid grid-cols-2 gap-3">
-            <div class="col-span-2 flex flex-col items-center justify-center py-20 text-gray-400">
-                <i class="fa-solid fa-circle-notch fa-spin text-3xl mb-3 text-black"></i>
-                <p class="text-sm font-bold uppercase tracking-widest">Sincronizando inventario...</p>
+        <section class="relative w-full h-[30vh] md:h-[40vh] bg-black overflow-hidden flex items-end p-6 md:p-12">
+            <img src="https://images.unsplash.com/photo-1530124566582-a618bc2615dc?q=80&w=1600&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-40" alt="Herramientas">
+            <div class="relative z-10 w-full">
+                <span class="bg-[#F5A623] text-black px-3 py-1 font-black text-xs md:text-sm uppercase tracking-widest mb-3 md:mb-4 inline-block rounded-sm">Equipamiento Pro</span>
+                <h2 class="text-white font-black text-4xl md:text-6xl leading-none mb-2 shadow-sm">TODO PARA<br>TU OBRA</h2>
+                <p class="text-gray-200 text-sm md:text-base font-medium max-w-md">Calidad industrial al alcance de tu mano, revisa nuestro catálogo completo.</p>
             </div>
-        </div>
-    </main>
+        </section>
 
-    <div id="cart-modal" class="hidden fixed inset-0 bg-black/60 z-[1001] flex items-end transition-opacity backdrop-blur-sm">
-        <div class="bg-white w-full max-w-md mx-auto h-[85vh] rounded-t-3xl flex flex-col overflow-hidden shadow-2xl relative animate-slide-up">
-            <div class="px-6 py-5 flex justify-between items-center border-b border-gray-100">
-                <h2 class="text-xl font-black">Tu Orden de Compra</h2>
-                <button onclick="toggleCart()" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-200 active:scale-95 transition-transform">
+        <nav id="category-nav" class="flex overflow-x-auto gap-3 md:gap-4 px-5 md:px-10 py-5 hide-scrollbar border-b border-gray-100 bg-white sticky top-[68px] md:top-[76px] z-40 shadow-sm">
+            </nav>
+
+        <main class="p-4 md:p-10 bg-gray-50 pb-28 min-h-screen">
+            <div id="product-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-8">
+                <div class="col-span-full flex flex-col items-center justify-center py-32 text-gray-400">
+                    <i class="fa-solid fa-circle-notch fa-spin text-4xl mb-4 text-black"></i>
+                    <p class="text-base font-bold uppercase tracking-widest">Cargando inventario...</p>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <div id="cart-modal" class="hidden fixed inset-0 bg-black/60 z-[1001] flex items-end md:items-center justify-center transition-opacity backdrop-blur-sm p-0 md:p-6">
+        <div class="bg-white w-full md:max-w-xl h-[85vh] md:h-[80vh] rounded-t-3xl md:rounded-3xl flex flex-col overflow-hidden shadow-2xl relative animate-slide-up">
+            <div class="px-6 py-5 flex justify-between items-center border-b border-gray-100 bg-white">
+                <h2 class="text-xl md:text-2xl font-black">Tu Orden de Compra</h2>
+                <button onclick="toggleCart()" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-200 active:scale-95 transition-transform text-lg">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
             
-            <div id="cart-items" class="flex-grow p-5 overflow-y-auto space-y-4 bg-gray-50">
+            <div id="cart-items" class="flex-grow p-5 md:p-8 overflow-y-auto space-y-4 md:space-y-6 bg-gray-50">
                 </div>
             
-            <div class="p-6 bg-white border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
-                <div class="flex justify-between items-center mb-5">
-                    <span class="text-gray-500 font-semibold uppercase text-sm">Total Estimado:</span>
-                    <span id="cart-total" class="text-2xl font-black text-black">$0</span>
+            <div class="p-6 md:p-8 bg-white border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-gray-500 font-semibold uppercase text-sm md:text-base">Total Estimado:</span>
+                    <span id="cart-total" class="text-3xl md:text-4xl font-black text-black">$0</span>
                 </div>
-                <button onclick="sendToWhatsApp()" class="w-full bg-[#25D366] hover:bg-[#128C7E] text-white py-4 rounded-2xl font-black text-lg flex justify-center items-center gap-3 shadow-lg shadow-green-500/20 active:scale-95 transition-all">
-                    <i class="fa-brands fa-whatsapp text-2xl"></i> Finalizar Pedido
+                <button onclick="sendToWhatsApp()" class="w-full bg-[#25D366] hover:bg-[#128C7E] text-white py-4 md:py-5 rounded-2xl font-black text-lg md:text-xl flex justify-center items-center gap-3 shadow-lg shadow-green-500/20 active:scale-95 transition-all">
+                    <i class="fa-brands fa-whatsapp text-2xl md:text-3xl"></i> Finalizar Pedido
                 </button>
             </div>
         </div>
@@ -77,24 +80,25 @@
 
     <script>
         // --- CONFIGURACIÓN DE PRODUCCIÓN ---
-        // Extraemos automáticamente el formato CSV del enlace 2PACX que proporcionaste
-        const PUBLISHED_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTKubbkA5X4nCf12-gMrjRmlTagA9m11VdXuLO_DYB958eGMdGIQT2NWVOuLSUVa_gxtvLqyPdO76BU/pub?output=csv';
+        const SHEET_ID = '1MfRUT_lXBGfhBCQAXMG4CGC4ZPJatpsrm7GyIUdZqT0';
+        const SHEET_NAME = 'Ferretería';
         const WHATSAPP_NUMBER = '573114957971';
-        const STORE_NAME = 'Ferretería';
+        
+        // URL forzada a extraer CSV exactamente de la pestaña "Ferretería" (evita el error de traer la pestaña "Ropa")
+        const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SHEET_NAME)}`;
         // -----------------------------------
 
         let allProducts = [];
         let cart = [];
         let currentCategory = 'Ver Todo';
 
-        // 1. Lectura Inteligente de Sheets (Motor PapaParse)
+        // 1. Lectura de Sheets
         function loadProducts() {
-            Papa.parse(PUBLISHED_URL, {
+            Papa.parse(CSV_URL, {
                 download: true,
                 header: true,
                 complete: function(results) {
                     allProducts = results.data.map(row => {
-                        // Búsqueda de columnas ignorando mayúsculas y espacios extra
                         const keys = Object.keys(row);
                         const getVal = (searchKey) => {
                             const found = keys.find(k => k.toLowerCase().trim() === searchKey);
@@ -102,9 +106,8 @@
                         };
 
                         const nombre = getVal('nombre');
-                        if (!nombre) return null; // Saltar filas vacías
+                        if (!nombre) return null;
 
-                        // Limpiar el precio para asegurar que sea numérico
                         const rawPrecio = getVal('precio').toString();
                         const precioNum = parseFloat(rawPrecio.replace(/[^0-9]/g, '')) || 0;
 
@@ -120,77 +123,72 @@
                     initApp();
                 },
                 error: function(err) {
-                    console.error("Error de lectura:", err);
                     document.getElementById('product-grid').innerHTML = `
-                        <div class="col-span-2 text-center text-red-500 py-10 bg-red-50 rounded-2xl">
-                            <i class="fa-solid fa-triangle-exclamation text-3xl mb-2"></i>
-                            <p class="font-bold text-sm">El catálogo no está disponible.</p>
-                            <p class="text-xs mt-1">Verifica que la hoja esté publicada correctamente.</p>
+                        <div class="col-span-full text-center text-red-500 py-10">
+                            <i class="fa-solid fa-triangle-exclamation text-4xl mb-3"></i>
+                            <p class="font-bold">El catálogo no está disponible.</p>
                         </div>`;
                 }
             });
         }
 
-        // 2. Inicialización de la Interfaz
+        // 2. Interfaz
         function initApp() {
             updateCategoryNav();
             renderProducts(allProducts);
         }
 
         function updateCategoryNav() {
-            // Extraer categorías únicas de los productos reales
             const categories = ['Ver Todo', ...new Set(allProducts.map(p => p.categoria))];
             const nav = document.getElementById('category-nav');
             
             nav.innerHTML = categories.map(cat => {
                 const isActive = cat === currentCategory;
-                const baseClasses = "px-6 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-colors border shadow-sm";
-                const activeClasses = isActive ? "bg-black text-white border-black" : "bg-white text-gray-600 border-gray-200 active:bg-gray-100";
-                return `<button onclick="filterCategory('${cat}')" class="${baseClasses} ${activeClasses}">${cat}</button>`;
+                const activeClasses = isActive ? "bg-black text-white border-black" : "bg-white text-gray-600 border-gray-200 hover:bg-gray-50";
+                return `<button onclick="filterCategory('${cat}')" class="px-6 md:px-8 py-2 md:py-3 rounded-full text-sm md:text-base font-bold whitespace-nowrap transition-colors border shadow-sm ${activeClasses}">${cat}</button>`;
             }).join('');
         }
 
         function filterCategory(cat) {
             currentCategory = cat;
             const filtered = cat === 'Ver Todo' ? allProducts : allProducts.filter(p => p.categoria === cat);
-            updateCategoryNav(); // Refrescar los botones
-            renderProducts(filtered); // Mostrar productos filtrados
+            updateCategoryNav();
+            renderProducts(filtered);
         }
 
         function renderProducts(productsToRender) {
             const grid = document.getElementById('product-grid');
             
             if (productsToRender.length === 0) {
-                grid.innerHTML = `<p class="col-span-2 text-center text-gray-400 py-10 font-bold">No hay productos en esta categoría.</p>`;
+                grid.innerHTML = `<p class="col-span-full text-center text-gray-400 py-20 font-bold text-lg">No hay productos aquí.</p>`;
                 return;
             }
 
             grid.innerHTML = productsToRender.map((p) => {
-                // Encontrar el índice original para el carrito
                 const originalIndex = allProducts.findIndex(item => item.nombre === p.nombre);
                 
                 return `
-                <div class="bg-white rounded-[1.2rem] overflow-hidden shadow-sm border border-gray-100 flex flex-col relative group">
+                <div class="bg-white rounded-[1.2rem] md:rounded-[1.5rem] overflow-hidden shadow-sm hover:shadow-xl transition-shadow border border-gray-100 flex flex-col relative group">
                     <div class="relative aspect-[9/16] bg-gray-100 w-full overflow-hidden">
-                        <img src="${p.imagen}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="${p.nombre}" loading="lazy">
-                        <button onclick="addToCart(${originalIndex})" class="absolute bottom-3 right-3 w-10 h-10 bg-white text-black rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform hover:bg-gray-50">
-                            <i class="fa-solid fa-plus font-bold"></i>
+                        <img src="${p.imagen}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="${p.nombre}" loading="lazy">
+                        <button onclick="addToCart(${originalIndex})" class="absolute bottom-3 right-3 md:bottom-4 md:right-4 w-10 h-10 md:w-12 md:h-12 bg-white text-black rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform hover:bg-gray-50">
+                            <i class="fa-solid fa-plus font-bold md:text-xl"></i>
                         </button>
                     </div>
-                    <div class="p-4 flex-grow flex flex-col justify-between bg-white">
+                    <div class="p-4 md:p-5 flex-grow flex flex-col justify-between bg-white z-10">
                         <div>
-                            <p class="text-[10px] text-gray-400 uppercase tracking-widest font-black mb-1">${p.categoria}</p>
-                            <h3 class="font-bold text-sm text-gray-900 leading-snug line-clamp-2">${p.nombre}</h3>
+                            <p class="text-[10px] md:text-xs text-gray-400 uppercase tracking-widest font-black mb-1">${p.categoria}</p>
+                            <h3 class="font-bold text-sm md:text-base text-gray-900 leading-snug line-clamp-2">${p.nombre}</h3>
                         </div>
-                        <div class="mt-2">
-                            <span class="text-black font-black text-base">$${p.precio.toLocaleString()}</span>
+                        <div class="mt-3">
+                            <span class="text-black font-black text-base md:text-xl">$${p.precio.toLocaleString()}</span>
                         </div>
                     </div>
                 </div>
             `}).join('');
         }
 
-        // 3. Sistema del Carrito
+        // 3. Carrito
         function addToCart(index) {
             const product = allProducts[index];
             const itemInCart = cart.find(item => item.nombre === product.nombre);
@@ -202,7 +200,6 @@
             }
             updateCartUI();
             
-            // Animación del badge
             const cartIcon = document.getElementById('cart-count');
             cartIcon.classList.add('scale-150', 'bg-[#F5A623]', 'text-black');
             setTimeout(() => cartIcon.classList.remove('scale-150', 'bg-[#F5A623]', 'text-black'), 250);
@@ -215,28 +212,28 @@
 
             if(cart.length === 0) {
                 itemsContainer.innerHTML = `
-                    <div class="h-full flex flex-col items-center justify-center text-gray-400 py-10">
-                        <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                            <i class="fa-solid fa-box-open text-3xl opacity-50"></i>
+                    <div class="h-full flex flex-col items-center justify-center text-gray-400 py-20">
+                        <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+                            <i class="fa-solid fa-box-open text-4xl opacity-50"></i>
                         </div>
-                        <p class="font-bold">Aún no hay herramientas</p>
-                        <p class="text-xs mt-1">Agrega productos desde el catálogo.</p>
+                        <p class="font-bold text-lg">Aún no hay herramientas</p>
+                        <p class="text-sm mt-1">Agrega productos desde el catálogo.</p>
                     </div>`;
             } else {
                 itemsContainer.innerHTML = cart.map((item, i) => {
                     total += item.precio * item.qty;
                     return `
-                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-50 flex items-center gap-4 relative">
-                            <img src="${item.imagen}" class="w-16 h-24 object-cover rounded-xl bg-gray-100">
+                        <div class="bg-white p-4 md:p-5 rounded-2xl md:rounded-3xl shadow-sm border border-gray-50 flex items-center gap-4 relative">
+                            <img src="${item.imagen}" class="w-20 h-28 md:w-24 md:h-32 object-cover rounded-xl md:rounded-2xl bg-gray-100 shadow-sm">
                             <div class="flex-grow">
-                                <p class="font-bold text-sm leading-tight pr-8">${item.nombre}</p>
-                                <p class="text-gray-500 text-xs mt-1 font-semibold">$${item.precio.toLocaleString()} c/u</p>
-                                <div class="inline-flex items-center mt-3 bg-gray-100 rounded-lg px-2 py-1">
-                                    <span class="text-xs font-black text-black px-2">Cant: ${item.qty}</span>
+                                <p class="font-bold text-sm md:text-base leading-tight pr-8">${item.nombre}</p>
+                                <p class="text-gray-500 text-xs md:text-sm mt-1 font-semibold">$${item.precio.toLocaleString()} c/u</p>
+                                <div class="inline-flex items-center mt-3 bg-gray-100 rounded-lg px-2 py-1 md:px-3 md:py-1.5">
+                                    <span class="text-xs md:text-sm font-black text-black px-2">Cant: ${item.qty}</span>
                                 </div>
                             </div>
-                            <button onclick="removeFromCart(${i})" class="absolute top-4 right-4 w-8 h-8 bg-red-50 text-red-500 rounded-full flex items-center justify-center active:scale-90 transition-transform">
-                                <i class="fa-solid fa-trash-can text-xs"></i>
+                            <button onclick="removeFromCart(${i})" class="absolute top-4 right-4 md:top-6 md:right-6 w-8 h-8 md:w-10 md:h-10 bg-red-50 text-red-500 rounded-full flex items-center justify-center hover:bg-red-100 active:scale-90 transition-transform">
+                                <i class="fa-solid fa-trash-can text-xs md:text-sm"></i>
                             </button>
                         </div>
                     `;
@@ -262,9 +259,9 @@
         }
 
         function sendToWhatsApp() {
-            if (cart.length === 0) return; // Si está vacío no hace nada
+            if (cart.length === 0) return;
 
-            let message = `🛠️ *NUEVA ORDEN - ${STORE_NAME}*%0A`;
+            let message = `🛠️ *NUEVA ORDEN - FERRETERÍA*%0A`;
             message += `-----------------------------------%0A`;
             
             let total = 0;
@@ -281,7 +278,6 @@
             window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
         }
 
-        // Iniciar la app
         loadProducts();
     </script>
 </body>
