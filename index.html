@@ -81,7 +81,6 @@
     <script>
         // --- CONFIGURACIÓN DE PRODUCCIÓN ---
         const WHATSAPP_NUMBER = '573114957971';
-        // URL directa a la pestaña Ferretería
         const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTKubbkA5X4nCf12-gMrjRmlTagA9m11VdXuLO_DYB958eGMdGIQT2NWVOuLSUVa_gxtvLqyPdO76BU/pub?gid=2126619530&single=true&output=csv';
         // -----------------------------------
 
@@ -112,7 +111,7 @@
                             nombre: nombre,
                             descripcion: getVal('descripcion') || '',
                             precio: precioNum,
-                            imagen: getVal('imagen') || 'https://placehold.co/720x1280/EEEEEE/999999?text=Sin+Imagen',
+                            imagen: getVal('imagen') || 'https://placehold.co/800x800/EEEEEE/999999?text=Sin+Imagen',
                             categoria: getVal('categoria') || 'General'
                         };
                     }).filter(p => p !== null);
@@ -171,10 +170,10 @@
             grid.innerHTML = productsToRender.map((p) => {
                 const originalIndex = allProducts.findIndex(item => item.nombre === p.nombre);
                 
-                // CAMBIO AQUÍ: object-cover por object-contain y añadido padding (p-3)
+                // CAMBIO AQUÍ: aspect-square para formato 1:1 en las cajas de imagen
                 return `
                 <div class="bg-white rounded-[1.2rem] md:rounded-[1.5rem] overflow-hidden shadow-sm hover:shadow-xl transition-shadow border border-gray-100 flex flex-col relative group">
-                    <div class="relative aspect-[9/16] bg-gray-50 w-full overflow-hidden p-3">
+                    <div class="relative aspect-square bg-gray-50 w-full overflow-hidden p-3 md:p-4">
                         <img src="${p.imagen}" class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105" alt="${p.nombre}" loading="lazy">
                         <button onclick="addToCart(${originalIndex})" class="absolute bottom-3 right-3 md:bottom-4 md:right-4 w-10 h-10 md:w-12 md:h-12 bg-white text-black rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform hover:bg-gray-50 z-20">
                             <i class="fa-solid fa-plus font-bold md:text-xl"></i>
@@ -226,9 +225,10 @@
             } else {
                 itemsContainer.innerHTML = cart.map((item, i) => {
                     total += item.precio * item.qty;
+                    // CAMBIO AQUÍ: w-20 h-20 (y w-24 h-24) para que la imagen del carrito sea cuadrada
                     return `
                         <div class="bg-white p-4 md:p-5 rounded-2xl md:rounded-3xl shadow-sm border border-gray-50 flex items-center gap-4 relative">
-                            <img src="${item.imagen}" class="w-20 h-28 md:w-24 md:h-32 object-contain rounded-xl md:rounded-2xl bg-gray-50 shadow-sm p-1">
+                            <img src="${item.imagen}" class="w-20 h-20 md:w-24 md:h-24 object-contain rounded-xl md:rounded-2xl bg-gray-50 shadow-sm p-1 md:p-2">
                             <div class="flex-grow">
                                 <p class="font-bold text-sm md:text-base leading-tight pr-8">${item.nombre}</p>
                                 <p class="text-gray-500 text-xs md:text-sm mt-1 font-semibold">$${item.precio.toLocaleString()} c/u</p>
