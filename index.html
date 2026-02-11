@@ -11,7 +11,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
         body { 
-            background-color: #E5E7EB; /* Fondo gris oscuro para que resalte la hoja blanca en PC */
+            background-color: #E5E7EB; 
             font-family: 'Inter', sans-serif; 
             -webkit-tap-highlight-color: transparent;
         }
@@ -78,32 +78,30 @@
         </div>
     </div>
 
-    <script>   
-       // URL forzada a extraer CSV exactamente de la pestaña "Ferretería" (evita el error de traer la pestaña "Ropa")
-       // --- CONFIGURACIÓN DE PRODUCCIÓN ---
-        const SHEET_ID = '1MfRUT_lXBGfhBCQAXMG4CGC4ZPJatpsrm7GyIUdZqT0'; // Este es el ID de tu documento
-        const GID = 'gid=2126619530'; // Reemplaza esto con el número que copiaste de la URL
+    <script>
+        // --- CONFIGURACIÓN DE PRODUCCIÓN 100% INFALIBLE ---
         const WHATSAPP_NUMBER = '573114957971';
-
-        // ¡Esta es la URL mágica que fuerza la descarga de la pestaña correcta!
-        const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${GID}`;
-// -----------------------------------
-        // -----------------------------------
+        
+        // URL estructurada con el enlace publicado 2PACX y el GID específico de Ferretería
+        const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTKubbkA5X4nCf12-gMrjRmlTagA9m11VdXuLO_DYB958eGMdGIQT2NWVOuLSUVa_gxtvLqyPdO76BU/pub?gid=2126619530&single=true&output=csv';
+        // --------------------------------------------------
 
         let allProducts = [];
         let cart = [];
         let currentCategory = 'Ver Todo';
 
-        // 1. Lectura de Sheets
         function loadProducts() {
             Papa.parse(CSV_URL, {
                 download: true,
                 header: true,
+                skipEmptyLines: true,
                 complete: function(results) {
                     allProducts = results.data.map(row => {
                         const keys = Object.keys(row);
+                        
+                        // Función robusta para encontrar columnas ignorando mayúsculas o espacios extra
                         const getVal = (searchKey) => {
-                            const found = keys.find(k => k.toLowerCase().trim() === searchKey);
+                            const found = keys.find(k => k.toLowerCase().replace(/[^a-z0-9]/g, '') === searchKey);
                             return found ? row[found] : '';
                         };
 
@@ -122,19 +120,26 @@
                         };
                     }).filter(p => p !== null);
 
-                    initApp();
+                    if (allProducts.length > 0) {
+                        initApp();
+                    } else {
+                        showError("La pestaña está vacía o no tiene el formato correcto.");
+                    }
                 },
                 error: function(err) {
-                    document.getElementById('product-grid').innerHTML = `
-                        <div class="col-span-full text-center text-red-500 py-10">
-                            <i class="fa-solid fa-triangle-exclamation text-4xl mb-3"></i>
-                            <p class="font-bold">El catálogo no está disponible.</p>
-                        </div>`;
+                    showError("El catálogo no está disponible. Revisa los permisos del documento.");
                 }
             });
         }
 
-        // 2. Interfaz
+        function showError(mensaje) {
+            document.getElementById('product-grid').innerHTML = `
+                <div class="col-span-full text-center text-red-500 py-20">
+                    <i class="fa-solid fa-triangle-exclamation text-4xl mb-3"></i>
+                    <p class="font-bold text-lg">${mensaje}</p>
+                </div>`;
+        }
+
         function initApp() {
             updateCategoryNav();
             renderProducts(allProducts);
@@ -190,7 +195,6 @@
             `}).join('');
         }
 
-        // 3. Carrito
         function addToCart(index) {
             const product = allProducts[index];
             const itemInCart = cart.find(item => item.nombre === product.nombre);
