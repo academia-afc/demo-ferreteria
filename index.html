@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ferretería - Catálogo Digital</title>
+    <title>Ferretería Pro - Catálogo Digital</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
         body { 
@@ -13,6 +15,7 @@
             font-family: 'Inter', sans-serif; 
             -webkit-tap-highlight-color: transparent;
         }
+        /* Ocultar scrollbar nativo manteniendo funcionalidad */
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
@@ -20,105 +23,157 @@
 <body class="max-w-md mx-auto bg-white min-h-screen relative shadow-2xl">
 
     <header class="bg-white/95 backdrop-blur-md px-5 py-4 sticky top-0 z-50 flex justify-between items-center border-b border-gray-100">
-        <h1 id="store-name" class="font-black text-2xl tracking-tighter text-black uppercase">FERRETERÍA</h1>
-        <button onclick="toggleCart()" class="relative p-1">
+        <h1 id="store-name" class="font-black text-2xl tracking-tighter text-black uppercase">FERRETERÍA.</h1>
+        <button onclick="toggleCart()" class="relative p-1 active:scale-95 transition-transform">
             <i class="fa-solid fa-cart-shopping text-2xl text-black"></i>
-            <span id="cart-count" class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold h-5 w-5 flex items-center justify-center rounded-full border-2 border-white transition-transform duration-200">0</span>
+            <span id="cart-count" class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold h-5 w-5 flex items-center justify-center rounded-full border-2 border-white transition-all duration-300">0</span>
         </button>
     </header>
 
     <section class="relative w-full aspect-[9/16] bg-black overflow-hidden flex items-end p-6">
-        <img src="https://placehold.co/720x1280/1f2937/ffffff?text=Banner+Ferreteria" class="absolute inset-0 w-full h-full object-cover opacity-60" alt="Banner Ferretería">
+        <img src="https://images.unsplash.com/photo-1530124566582-a618bc2615dc?q=80&w=720&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-50" alt="Herramientas y Construcción">
         <div class="relative z-10 w-full">
-            <span class="bg-white text-black px-3 py-1 font-black text-xs uppercase tracking-widest mb-3 inline-block">Catálogo</span>
-            <h2 class="text-white font-black text-5xl leading-none mb-2">EQUIPA TU<br>PROYECTO</h2>
-            <p class="text-gray-300 text-sm font-medium">Las mejores herramientas y materiales.</p>
+            <span class="bg-[#F5A623] text-black px-3 py-1 font-black text-xs uppercase tracking-widest mb-3 inline-block rounded-sm">Equipamiento Pro</span>
+            <h2 class="text-white font-black text-5xl leading-none mb-2 shadow-sm">TODO PARA<br>TU OBRA</h2>
+            <p class="text-gray-200 text-sm font-medium">Calidad industrial al alcance de tu mano.</p>
         </div>
     </section>
 
-    <nav class="flex overflow-x-auto gap-3 px-5 py-5 hide-scrollbar border-b border-gray-100 bg-white">
-        <button class="px-6 py-2 bg-black text-white rounded-full text-sm font-bold whitespace-nowrap">Ver Todo</button>
-        <button class="px-6 py-2 bg-gray-100 text-gray-600 rounded-full text-sm font-bold whitespace-nowrap">Eléctricas</button>
-        <button class="px-6 py-2 bg-gray-100 text-gray-600 rounded-full text-sm font-bold whitespace-nowrap">Manuales</button>
-        <button class="px-6 py-2 bg-gray-100 text-gray-600 rounded-full text-sm font-bold whitespace-nowrap">Pinturas</button>
-    </nav>
+    <nav id="category-nav" class="flex overflow-x-auto gap-3 px-5 py-5 hide-scrollbar border-b border-gray-100 bg-white sticky top-[68px] z-40">
+        </nav>
 
     <main class="p-4 bg-gray-50 pb-28 min-h-screen">
         <div id="product-grid" class="grid grid-cols-2 gap-3">
-            <p class="col-span-2 text-center text-gray-400 py-20 text-sm font-semibold">
-                <i class="fa-solid fa-spinner fa-spin mr-2"></i> Cargando catálogo...
-            </p>
+            <div class="col-span-2 flex flex-col items-center justify-center py-20 text-gray-400">
+                <i class="fa-solid fa-circle-notch fa-spin text-3xl mb-3 text-black"></i>
+                <p class="text-sm font-bold uppercase tracking-widest">Sincronizando inventario...</p>
+            </div>
         </div>
     </main>
 
-    <div id="cart-modal" class="hidden fixed inset-0 bg-black/60 z-[1001] flex items-end transition-opacity">
+    <div id="cart-modal" class="hidden fixed inset-0 bg-black/60 z-[1001] flex items-end transition-opacity backdrop-blur-sm">
         <div class="bg-white w-full max-w-md mx-auto h-[85vh] rounded-t-3xl flex flex-col overflow-hidden shadow-2xl relative animate-slide-up">
             <div class="px-6 py-5 flex justify-between items-center border-b border-gray-100">
-                <h2 class="text-xl font-black">Tu Pedido</h2>
-                <button onclick="toggleCart()" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 active:scale-95">
+                <h2 class="text-xl font-black">Tu Orden de Compra</h2>
+                <button onclick="toggleCart()" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-200 active:scale-95 transition-transform">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
             
             <div id="cart-items" class="flex-grow p-5 overflow-y-auto space-y-4 bg-gray-50">
-            </div>
+                </div>
             
             <div class="p-6 bg-white border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
                 <div class="flex justify-between items-center mb-5">
-                    <span class="text-gray-500 font-semibold">Total estimado:</span>
-                    <span id="cart-total" class="text-2xl font-black">$0</span>
+                    <span class="text-gray-500 font-semibold uppercase text-sm">Total Estimado:</span>
+                    <span id="cart-total" class="text-2xl font-black text-black">$0</span>
                 </div>
-                <button onclick="sendToWhatsApp()" class="w-full bg-[#25D366] text-white py-4 rounded-2xl font-black text-lg flex justify-center items-center gap-3 shadow-lg shadow-green-500/20 active:scale-95 transition-all">
-                    <i class="fa-brands fa-whatsapp text-2xl"></i> Enviar por WhatsApp
+                <button onclick="sendToWhatsApp()" class="w-full bg-[#25D366] hover:bg-[#128C7E] text-white py-4 rounded-2xl font-black text-lg flex justify-center items-center gap-3 shadow-lg shadow-green-500/20 active:scale-95 transition-all">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i> Finalizar Pedido
                 </button>
             </div>
         </div>
     </div>
 
     <script>
-        // --- CONFIGURACIÓN ESTRICTA ---
-        const SHEET_ID = '1MfRUT_lXBGfhBCQAXMG4CGC4ZPJatpsrm7GyIUdZqT0';
-        const SHEET_NAME = 'Ferretería'; 
+        // --- CONFIGURACIÓN DE PRODUCCIÓN ---
+        // Extraemos automáticamente el formato CSV del enlace 2PACX que proporcionaste
+        const PUBLISHED_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTKubbkA5X4nCf12-gMrjRmlTagA9m11VdXuLO_DYB958eGMdGIQT2NWVOuLSUVa_gxtvLqyPdO76BU/pub?output=csv';
         const WHATSAPP_NUMBER = '573114957971';
-        // ------------------------------
+        const STORE_NAME = 'FERRETERÍA';
+        // -----------------------------------
 
-        let products = [];
+        let allProducts = [];
         let cart = [];
+        let currentCategory = 'Ver Todo';
 
-        async function loadProducts() {
-            // El encodeURIComponent asegura que la tilde en "Ferretería" no rompa la URL
-            const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
-            
-            try {
-                const response = await fetch(url);
-                const text = await response.text();
-                const json = JSON.parse(text.substr(47).slice(0, -2));
-                const rows = json.table.rows;
-                
-                products = rows.map(row => ({
-                    nombre: row.c[0] ? row.c[0].v : 'Producto sin nombre',
-                    descripcion: row.c[1] ? row.c[1].v : '',
-                    precio: row.c[2] ? row.c[2].v : 0,
-                    imagen: row.c[3] ? row.c[3].v : 'https://placehold.co/720x1280/EEEEEE/999999?text=Sin+Imagen',
-                    categoria: row.c[4] ? row.c[4].v : 'General'
-                }));
+        // 1. Lectura Inteligente de Sheets (Motor PapaParse)
+        function loadProducts() {
+            Papa.parse(PUBLISHED_URL, {
+                download: true,
+                header: true,
+                complete: function(results) {
+                    allProducts = results.data.map(row => {
+                        // Búsqueda de columnas ignorando mayúsculas y espacios extra
+                        const keys = Object.keys(row);
+                        const getVal = (searchKey) => {
+                            const found = keys.find(k => k.toLowerCase().trim() === searchKey);
+                            return found ? row[found] : '';
+                        };
 
-                document.getElementById('store-name').innerText = SHEET_NAME.toUpperCase();
-                renderProducts();
-            } catch (e) {
-                console.error("Error cargando Sheets:", e);
-                document.getElementById('store-name').innerText = "ERROR";
-                document.getElementById('product-grid').innerHTML = `<p class="col-span-2 text-center text-red-500 mt-10">Error al cargar. Asegúrate de que el documento esté publicado en la web.</p>`;
-            }
+                        const nombre = getVal('nombre');
+                        if (!nombre) return null; // Saltar filas vacías
+
+                        // Limpiar el precio para asegurar que sea numérico
+                        const rawPrecio = getVal('precio').toString();
+                        const precioNum = parseFloat(rawPrecio.replace(/[^0-9]/g, '')) || 0;
+
+                        return {
+                            nombre: nombre,
+                            descripcion: getVal('descripcion') || '',
+                            precio: precioNum,
+                            imagen: getVal('imagen') || 'https://placehold.co/720x1280/EEEEEE/999999?text=Sin+Imagen',
+                            categoria: getVal('categoria') || 'General'
+                        };
+                    }).filter(p => p !== null);
+
+                    initApp();
+                },
+                error: function(err) {
+                    console.error("Error de lectura:", err);
+                    document.getElementById('product-grid').innerHTML = `
+                        <div class="col-span-2 text-center text-red-500 py-10 bg-red-50 rounded-2xl">
+                            <i class="fa-solid fa-triangle-exclamation text-3xl mb-2"></i>
+                            <p class="font-bold text-sm">El catálogo no está disponible.</p>
+                            <p class="text-xs mt-1">Verifica que la hoja esté publicada correctamente.</p>
+                        </div>`;
+                }
+            });
         }
 
-        function renderProducts() {
+        // 2. Inicialización de la Interfaz
+        function initApp() {
+            updateCategoryNav();
+            renderProducts(allProducts);
+        }
+
+        function updateCategoryNav() {
+            // Extraer categorías únicas de los productos reales
+            const categories = ['Ver Todo', ...new Set(allProducts.map(p => p.categoria))];
+            const nav = document.getElementById('category-nav');
+            
+            nav.innerHTML = categories.map(cat => {
+                const isActive = cat === currentCategory;
+                const baseClasses = "px-6 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-colors border shadow-sm";
+                const activeClasses = isActive ? "bg-black text-white border-black" : "bg-white text-gray-600 border-gray-200 active:bg-gray-100";
+                return `<button onclick="filterCategory('${cat}')" class="${baseClasses} ${activeClasses}">${cat}</button>`;
+            }).join('');
+        }
+
+        function filterCategory(cat) {
+            currentCategory = cat;
+            const filtered = cat === 'Ver Todo' ? allProducts : allProducts.filter(p => p.categoria === cat);
+            updateCategoryNav(); // Refrescar los botones
+            renderProducts(filtered); // Mostrar productos filtrados
+        }
+
+        function renderProducts(productsToRender) {
             const grid = document.getElementById('product-grid');
-            grid.innerHTML = products.map((p, index) => `
+            
+            if (productsToRender.length === 0) {
+                grid.innerHTML = `<p class="col-span-2 text-center text-gray-400 py-10 font-bold">No hay productos en esta categoría.</p>`;
+                return;
+            }
+
+            grid.innerHTML = productsToRender.map((p) => {
+                // Encontrar el índice original para el carrito
+                const originalIndex = allProducts.findIndex(item => item.nombre === p.nombre);
+                
+                return `
                 <div class="bg-white rounded-[1.2rem] overflow-hidden shadow-sm border border-gray-100 flex flex-col relative group">
                     <div class="relative aspect-[9/16] bg-gray-100 w-full overflow-hidden">
                         <img src="${p.imagen}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="${p.nombre}" loading="lazy">
-                        <button onclick="addToCart(${index})" class="absolute bottom-3 right-3 w-10 h-10 bg-white text-black rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+                        <button onclick="addToCart(${originalIndex})" class="absolute bottom-3 right-3 w-10 h-10 bg-white text-black rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform hover:bg-gray-50">
                             <i class="fa-solid fa-plus font-bold"></i>
                         </button>
                     </div>
@@ -132,11 +187,12 @@
                         </div>
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
         }
 
+        // 3. Sistema del Carrito
         function addToCart(index) {
-            const product = products[index];
+            const product = allProducts[index];
             const itemInCart = cart.find(item => item.nombre === product.nombre);
             
             if (itemInCart) {
@@ -146,9 +202,10 @@
             }
             updateCartUI();
             
+            // Animación del badge
             const cartIcon = document.getElementById('cart-count');
-            cartIcon.classList.add('scale-150', 'bg-green-500');
-            setTimeout(() => cartIcon.classList.remove('scale-150', 'bg-green-500'), 200);
+            cartIcon.classList.add('scale-150', 'bg-[#F5A623]', 'text-black');
+            setTimeout(() => cartIcon.classList.remove('scale-150', 'bg-[#F5A623]', 'text-black'), 250);
         }
 
         function updateCartUI() {
@@ -157,7 +214,14 @@
             let total = 0;
 
             if(cart.length === 0) {
-                itemsContainer.innerHTML = `<div class="h-full flex flex-col items-center justify-center text-gray-400 py-10"><i class="fa-solid fa-cart-shopping text-5xl mb-4 opacity-50"></i><p class="font-bold">Tu carrito está vacío</p></div>`;
+                itemsContainer.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-gray-400 py-10">
+                        <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-box-open text-3xl opacity-50"></i>
+                        </div>
+                        <p class="font-bold">Aún no hay herramientas</p>
+                        <p class="text-xs mt-1">Agrega productos desde el catálogo.</p>
+                    </div>`;
             } else {
                 itemsContainer.innerHTML = cart.map((item, i) => {
                     total += item.precio * item.qty;
@@ -165,13 +229,13 @@
                         <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-50 flex items-center gap-4 relative">
                             <img src="${item.imagen}" class="w-16 h-24 object-cover rounded-xl bg-gray-100">
                             <div class="flex-grow">
-                                <p class="font-bold text-sm leading-tight pr-6">${item.nombre}</p>
+                                <p class="font-bold text-sm leading-tight pr-8">${item.nombre}</p>
                                 <p class="text-gray-500 text-xs mt-1 font-semibold">$${item.precio.toLocaleString()} c/u</p>
                                 <div class="inline-flex items-center mt-3 bg-gray-100 rounded-lg px-2 py-1">
                                     <span class="text-xs font-black text-black px-2">Cant: ${item.qty}</span>
                                 </div>
                             </div>
-                            <button onclick="removeFromCart(${i})" class="absolute top-4 right-4 w-8 h-8 bg-red-50 text-red-500 rounded-full flex items-center justify-center active:scale-90">
+                            <button onclick="removeFromCart(${i})" class="absolute top-4 right-4 w-8 h-8 bg-red-50 text-red-500 rounded-full flex items-center justify-center active:scale-90 transition-transform">
                                 <i class="fa-solid fa-trash-can text-xs"></i>
                             </button>
                         </div>
@@ -198,11 +262,9 @@
         }
 
         function sendToWhatsApp() {
-            if (cart.length === 0) return alert("Tu carrito está vacío");
+            if (cart.length === 0) return; // Si está vacío no hace nada
 
-            const storeName = document.getElementById('store-name')?.innerText || "Ferretería";
-            
-            let message = `🛠️ *NUEVO PEDIDO - ${storeName}*%0A`;
+            let message = `🛠️ *NUEVA ORDEN - ${STORE_NAME}*%0A`;
             message += `-----------------------------------%0A`;
             
             let total = 0;
@@ -212,13 +274,14 @@
             });
 
             message += `-----------------------------------%0A`;
-            message += `💰 *TOTAL A PAGAR: $${total.toLocaleString()}*%0A`;
+            message += `💰 *TOTAL ORDEN: $${total.toLocaleString()}*%0A`;
             message += `-----------------------------------%0A`;
-            message += `_Pedido generado desde la Web App_`;
+            message += `_Enviado desde el catálogo web_`;
 
             window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
         }
 
+        // Iniciar la app
         loadProducts();
     </script>
 </body>
